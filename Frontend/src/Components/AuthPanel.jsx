@@ -3,13 +3,12 @@ import SUForm from './SignUpform'
 import LoginForm from './LoginForm'
 import { useState } from 'react'
 
-const AuthPanel = ({authochanger}) => {
+const AuthPanel = ({ authochanger }) => {
+
 
     const [showLogin, setShowLogin] = useState(false)
     const [showSignup, setShowSignup] = useState(false)
     const [showButton, setShowButton] = useState(true)
-
-
 
     const loginClicked = () => {
         setShowLogin(true)
@@ -18,16 +17,18 @@ const AuthPanel = ({authochanger}) => {
     }
 
     const signupClicked = () => {
+
         setShowSignup(true)
         setShowLogin(false)
         setShowButton(false)
+
     }
 
     const Buttons = () => {
         return (
             <div>
-                <button onClick={loginClicked}>login</button>
-                <button onClick={signupClicked}>signup</button>
+                <button onClick={loginClicked} data-testid="login-button" >login</button>
+                <button onClick={signupClicked} data-testid='signup-button' >signup</button>
             </div>
         )
     }
@@ -38,15 +39,13 @@ const AuthPanel = ({authochanger}) => {
         setShowSignup(false)
     }
 
-
-
     return (
 
         <div>
 
             {showButton && <Buttons />}
-            {showLogin && <LoginForm cancelFunc={cancel} authSetter={authochanger} />}
-            {showSignup && <SUForm cancelFunc={cancel} />}
+            {showLogin && <LoginForm   cancelFunc={cancel} authSetter={authochanger} />}
+            {showSignup && <SUForm data-testid='signup-form'cancelFunc={cancel} />}
 
         </div>
 

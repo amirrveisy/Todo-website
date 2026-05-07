@@ -2,15 +2,15 @@ import { useState } from "react"
 import route from '../../services/SignUp'
 
 
-const SUForm=({cancelFunc})=>{
+const SUForm = ({ cancelFunc }) => {
 
-    const [newUser, setNewUser]=useState('')
-    const [newPassword, setNewPassword]=useState('')
+    const [newUser, setNewUser] = useState('')
+    const [newPassword, setNewPassword] = useState('')
 
-    const sendUserObject=(event)=>{
+    const sendUserObject = (event) => {
         event.preventDefault()
-        
-        const newUserObj={
+
+        const newUserObj = {
             username: newUser,
             password: newPassword
         }
@@ -22,20 +22,20 @@ const SUForm=({cancelFunc})=>{
     }
 
 
-    return(
+    return (
 
         <div>
-            <form  onSubmit={ sendUserObject}>
+            <form data-testid="signup-form" onSubmit={sendUserObject}>
                 <div>
                     <p>username</p>
-                <input value={newUser} onChange={event=> setNewUser(event.target.value)}/>
+                    <input value={newUser}  data-testid='username-input' onChange={event => setNewUser(event.target.value)} />
                 </div>
                 <div>
-                <p>password</p>
-                <input value={newPassword} onChange={event=> setNewPassword(event.target.value)}/> 
+                    <p>password</p>
+                    <input value={newPassword} data-testid='password-input' onChange={event => setNewPassword(event.target.value)} />
                 </div>
-                <button type="submit">signUp</button>
-                <button onClick={()=>cancelFunc() }> cancel </button>
+                <button data-testid='siform-login-button'type="submit">signUp</button>
+                <button data-testid='siform-cancel-button'onClick={() => cancelFunc()}> cancel </button>
             </form>
 
         </div>

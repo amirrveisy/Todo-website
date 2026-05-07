@@ -5,11 +5,12 @@ import useTasks from "./useTasks"
 
 
 const LoginForm = ({ cancelFunc, authSetter }) => {
+
     const [newUser, setNewUser] = useState('')
     const [newPassword, setNewPassword] = useState('')
 
     const handleLogin = () => {
-        authSetter(true)   
+        authSetter(true)
     }
 
 
@@ -27,10 +28,11 @@ const LoginForm = ({ cancelFunc, authSetter }) => {
 
             const response = await loginRoute.create(newUserObj)
             taskService.setToken(response.token)
+            
             window.localStorage.setItem(
                 'loggedNoteappUser', JSON.stringify(response)
             )
-            
+
             handleLogin()
             setNewUser('')
             setNewPassword('')
@@ -46,22 +48,21 @@ const LoginForm = ({ cancelFunc, authSetter }) => {
     return (
 
         <div>
-            <form onSubmit={sendUserObject}>
+            <form data-testid='login-form' onSubmit={sendUserObject}>
                 <div>
                     <p>username</p>
-                    <input value={newUser} onChange={event => setNewUser(event.target.value)} />
+                    <input  data-testid='username-input' value={newUser} onChange={event => setNewUser(event.target.value)} />
                 </div>
                 <div>
                     <p>password</p>
-                    <input value={newPassword} onChange={event => setNewPassword(event.target.value)} />
+                    <input data-testid='password-input' value={newPassword} onChange={event => setNewPassword(event.target.value)} />
                 </div>
-                <button type="submit">login</button>
-                <button onClick={() => cancelFunc()}> cancel </button>
+                <button data-testid='logform-login-button' type="submit">login</button>
+                <button data-testid='logform-cancel-button' type="button" onClick={() => cancelFunc()}> cancel </button>
 
             </form>
 
         </div>
-
 
     )
 

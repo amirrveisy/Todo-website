@@ -10,5 +10,6 @@ const Display = ({ tasks, remover }) => {
       }
     </ul>
   )
+  
 }
 export default Display

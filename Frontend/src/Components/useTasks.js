@@ -8,25 +8,31 @@ const useTasks = () => {
   const [input, setInput] = useState("")
 
   useEffect(() => {
+
     const fetchdata = async () => {
+
       const retunredObject = await taskRouter.getAll()
-      setTask(retunredObject.tasks)
+
+      console.log(retunredObject)
+      setTask(retunredObject)
 
     }
-    fetchdata()
 
+    fetchdata()
+    console.log(" This is after the assertion")
+    console.log(tasks)
 
   }, [])
 
   const changeInput = (event) => setInput(event.target.value)
 
-  const addTask = (event) => {
+  const addTask = async (event) => {
     event.preventDefault()
     // Creating the new task
 
     let newTask = { "task": input }
 
-    taskRouter.create(newTask)
+    await  taskRouter.create(newTask)
 
     // changing the state 
     let newTasks = [...tasks, newTask]

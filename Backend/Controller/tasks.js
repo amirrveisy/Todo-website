@@ -10,7 +10,7 @@ const getTokenFrom = req => {
     //console.log(req)
 
     const authorization = req.get('authorization')
-    console.log(authorization)
+    
     if (authorization && authorization.startsWith('Bearer ')) {
         return authorization.replace('Bearer ', '')
     }
@@ -26,6 +26,7 @@ taskRouter.get('/', async (req, res) => {
     }
 
     const user = await User.findOne({ username: decodedToken.username }).populate('tasks')
+    console.log(user.tasks)
     return res.status(200).json(user.tasks)
 
   } catch (error) {

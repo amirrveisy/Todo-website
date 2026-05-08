@@ -11,11 +11,9 @@ userRouter.post('/', async (req, res) => {
     const { username, password } = req.body
     
     const user = await User.findOne({ username })
-    logger.info(">>>>>>>>")
-    logger.info(user)
-    logger.info("<<<<<<<<<")
+   
     const passwordCorrect = user === null ? false :  bcrypt.compare(password, user.passwordHash)
-    logger.info(passwordCorrect)
+    
 
     if (!(user && passwordCorrect)) {
         return res.status(401).json({

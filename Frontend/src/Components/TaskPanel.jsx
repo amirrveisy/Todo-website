@@ -1,38 +1,63 @@
 import useTasks from "./useTasks"
 import Display from './Display'
+import util from "../util"
 
+const TaskPanel = ({ stateChanger }) => {
+  const { tasks, input, changeInput, addTask, remTask } = useTasks()
 
-const TaskPanel=({setAutho})=>{
+  const logOut = () => {
+    window.localStorage.removeItem('loggedNoteappUser')
+    stateChanger(util.VIEWS.HOME)
+  }
 
-const { tasks, input, changeInput, addTask, remTask } = useTasks()
+  return (
+    <section className="min-vh-100 bg-light py-5">
+      <div className="container">
+        <div className="card shadow-lg border-0 rounded-4">
+          <div className="card-body p-4 p-md-5">
 
-const logOut =()=>{
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <h1 className="fw-bold mb-1">My Tasks</h1>
+                <p className="text-muted mb-0">
+                  Manage your daily tasks in one place
+                </p>
+              </div>
 
-  window.localStorage.removeItem('loggedNoteappUser')
-  setAutho(false)
+              <button
+                className="btn btn-outline-danger rounded-3 px-4"
+                onClick={logOut}
+              >
+                Logout
+              </button>
+            </div>
 
+            <form onSubmit={addTask} className="mb-4">
+              <div className="input-group input-group-lg">
+                <input
+                  className="form-control"
+                  value={input}
+                  onChange={changeInput}
+                  placeholder="Add a new task..."
+                />
+
+                <button className="btn btn-danger px-4" type="submit">
+                  Add
+                </button>
+              </div>
+            </form>
+
+            <div className="bg-white border rounded-4 p-3">
+              <h5 className="fw-semibold mb-3">Task List</h5>
+
+              <Display tasks={tasks} remover={remTask} />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 }
 
-
-return (
-    <div>
-        <div>
-          <h1>Tasks</h1>
-          <Display tasks={tasks} remover={remTask} />
-        </div>
-        <div>
-          <h1>Add a task :</h1>
-          <form onSubmit={addTask}>
-            <input value={input} onChange={changeInput} />
-          </form>
-        </div>
-
-        <div>
-
-          <button onClick={()=> logOut()} > logout </button>
-        </div>
-    </div>    
-)
-   
-}
 export default TaskPanel

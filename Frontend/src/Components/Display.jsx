@@ -6,7 +6,7 @@ const Display = ({ tasks, remover }) => {
   return (
     <ul>
       {
-        tasks.map(taskIn => <Task task={taskIn.task} fun={() => remover(taskIn.id)} />)
+        tasks.map(taskIn => <Task task={taskIn.task} date={taskIn.date} fun={() => remover(taskIn.id)} />)
       }
     </ul>
   )

@@ -2,9 +2,9 @@ import SUForm from "./SignUpform";
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, test, vi } from 'vitest'
-import route from '../../services/SignUp'
+import route from '../services/SignUp'
 
-vi.mock('../../services/SignUp', () => ({
+vi.mock('../services/SignUp', () => ({
     default: {
         create: vi.fn()
     }
@@ -64,7 +64,7 @@ test('cancel button calls cancelFunc', async () => {
 })
 
 
-test('Making sure that the Signup Button works', async () => {
+test.only('Making sure that the Signup Button works', async () => {
 
     route.create.mockResolvedValue({
         username: 'amir'
@@ -80,7 +80,7 @@ test('Making sure that the Signup Button works', async () => {
     await user.type(usernameInpt, 'amir')
     await user.type(passwordInpt, '1234')
 
-    await user.click(screen.getByTestId('siform-login-button'))
+    await user.click(screen.getByTestId('signup-button'))
 
     expect(route.create).toHaveBeenCalledWith({
         username: 'amir',

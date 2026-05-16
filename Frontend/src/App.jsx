@@ -2,7 +2,7 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import LoginForm from './Components/LoginForm'
 import TaskPanel from './Components/TaskPanel'
-import taskService from '../services/Task'
+import taskService from './services/Task'
 import MainPage from '../src/Components/Mainpage'
 import Footer from './Components/Footer'
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -40,12 +40,11 @@ function App() {
 
     <div>
 
+
       {view === util.VIEWS.HOME && <MainPage stateChanger={viewChanger} />}
       {view === util.VIEWS.LOGIN && <LoginForm stateChanger={viewChanger} />}
       {view === util.VIEWS.SIGNUP && <SUForm stateChanger={viewChanger} />}
       {view === util.VIEWS.TASKS && <TaskPanel  stateChanger={viewChanger}  />}
-
-      
 
       
 

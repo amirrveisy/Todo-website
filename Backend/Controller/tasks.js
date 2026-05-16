@@ -6,15 +6,15 @@ const User = require('../Model/User')
 
 
 const getTokenFrom = req => {
-    //console.log('Lets print the req object')
-    //console.log(req)
+  //console.log('Lets print the req object')
+  //console.log(req)
 
-    const authorization = req.get('authorization')
-    
-    if (authorization && authorization.startsWith('Bearer ')) {
-        return authorization.replace('Bearer ', '')
-    }
-    return null
+  const authorization = req.get('authorization')
+
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
 }
 
 taskRouter.get('/', async (req, res) => {
@@ -27,6 +27,7 @@ taskRouter.get('/', async (req, res) => {
 
     const user = await User.findOne({ username: decodedToken.username }).populate('tasks')
     console.log(user.tasks)
+
     return res.status(200).json(user.tasks)
 
   } catch (error) {
@@ -39,14 +40,15 @@ taskRouter.get('/', async (req, res) => {
 taskRouter.post('/', async (req, res) => {
 
   try {
-    
+
     const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET_STR)
     const user = await User.findById(decodedToken.id)
 
 
     // Adding a new task to our tasks
-    const newTask = Task({ task: req.body.task })
+    const newTask = Task({ task: req.body.task , date: req.body.date})
     const taskAdded = await newTask.save()
+
     // console.log(req.body.task)
     // console.log('task was sucessfully added')
     //The new Task should also be added to the set of tasks created by the user
@@ -56,11 +58,12 @@ taskRouter.post('/', async (req, res) => {
 
     // console.log(user.username)
     // console.log(' was modified')
+
     res.status(201).json(taskAdded)
-    
+
   } catch (error) {
-     return res.status(401).json({ error: 'token invalid' })
-    
+    return res.status(401).json({ error: 'token invalid' })
+
   }
 
 })
@@ -68,8 +71,8 @@ taskRouter.post('/', async (req, res) => {
 
 taskRouter.delete('/:id', async (req, res) => {
 
-    const task = await Task.findByIdAndDelete(req.params.id)
-    res.status(204).end()
+  const task = await Task.findByIdAndDelete(req.params.id)
+  res.status(204).end()
 
 })
 

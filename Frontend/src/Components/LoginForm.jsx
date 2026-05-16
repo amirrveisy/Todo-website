@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import loginRoute from '../../services/Login'
-import taskService from '../../services/Task'
+import loginRoute from '../services/Login'
+import taskService from '../services/Task'
 import util from '../util'
 
 

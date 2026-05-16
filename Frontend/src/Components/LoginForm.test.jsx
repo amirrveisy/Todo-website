@@ -1,97 +1,141 @@
-import LoginForm from "./LoginForm";
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { expect, test } from 'vitest'
-import loginRoute from '../../services/Login'
+import { describe, test, expect, vi, beforeEach } from 'vitest'
+import LoginForm from './LoginForm'
+import loginRoute from '../services/Login'
+import taskService from '../services/Task'
+import util from '../util'
 
-vi.mock('../../services/Login', () => ({
-    default: {
-        create: vi.fn()
-    }
+vi.mock('../services/Login', () => ({
+  default: {
+    create: vi.fn(),
+  },
 }))
 
+vi.mock('../services/Task', () => ({
+  default: {
+    setToken: vi.fn(),
+  },
+}))
 
-test('Testing that the skeletoon exists ', () => {
+describe('LoginForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    window.localStorage.clear()
+  })
 
-    render(<LoginForm />)
+  test('Login form is created ', () => {
+    const stateChanger = vi.fn()
 
-    expect(screen.getByTestId('login-form')).toBeVisible()
-    expect(screen.getByTestId('username-input')).toBeVisible()
-    expect(screen.getByTestId('password-input')).toBeVisible()
-    expect(screen.getByTestId('logform-login-button')).toBeVisible()
-    expect(screen.getByTestId('logform-cancel-button')).toBeVisible()
+    render(<LoginForm stateChanger={stateChanger} />)
 
-})
+    expect(screen.getByText('Welcome Back')).toBeInTheDocument()
+    expect(screen.getByTestId('username-input')).toBeInTheDocument()
+    expect(screen.getByTestId('password-input')).toBeInTheDocument()
+    expect(screen.getByTestId('logform-login-button')).toBeInTheDocument()
+    expect(screen.getByTestId('logform-cancel-button')).toBeInTheDocument()
+  })
 
-test('Testing that the password input is responsive', async () => {
-
-
-    const testText = "1234"
-    const user = userEvent.setup()
-    render(<LoginForm />)
-    const inp = screen.getByTestId('password-input')
-
-    
-    await user.type(inp, testText)
-    expect(inp.value).toBe(testText)
-
-
-})
-
-test('Testing that the username input is responsive', async () => {
-
-
-    const testText = "1234"
-    const user = userEvent.setup()
-    render(<LoginForm />)
-    const inp = screen.getByTestId('username-input')
-
-    await user.type(inp, testText)
-    expect(inp.value).toBe(testText)
-
-
-})
-
-test('cancel button calls cancelFunc', async () => {
-    const cancelFunc = vi.fn()
-    const authSetter = vi.fn()
+  test('cancel button changes view to HOME', async () => {
+    const stateChanger = vi.fn()
     const user = userEvent.setup()
 
-    render(<LoginForm cancelFunc={cancelFunc} authSetter={authSetter} />)
+    render(<LoginForm stateChanger={stateChanger} />)
 
     await user.click(screen.getByTestId('logform-cancel-button'))
 
-    expect(cancelFunc).toHaveBeenCalled()
-})
+    expect(stateChanger).toHaveBeenCalledWith(util.VIEWS.HOME)
+  })
 
-test('Making sure that the Login Button works', async () => {
-
-    loginRoute.create.mockResolvedValue({
-        token: '123',
-        username: 'amir'
-    })
-
-    const authset= vi.fn()
-
+  test('submits username and password correctly', async () => {
+    const stateChanger = vi.fn()
     const user = userEvent.setup()
 
-    render(<LoginForm authSetter={authset} />)
+    const fakeResponse = {
+      username: 'amir',
+      token: 'fake-token-123',
+    }
 
-    await user.type(screen.getByTestId('username-input'), 'amir')
-    await user.type(screen.getByTestId('password-input'), '1234')
+    loginRoute.create.mockResolvedValue(fakeResponse)
 
+    render(<LoginForm stateChanger={stateChanger} />)
+
+    await user.type(screen.getByTestId('username-input'), 'test')
+    await user.type(screen.getByTestId('password-input'), 'test')
     await user.click(screen.getByTestId('logform-login-button'))
 
     expect(loginRoute.create).toHaveBeenCalledWith({
-        username: "amir",
-        password: '1234'
+      username: 'test',
+      password: 'test',
+    })
+  })
 
+  test('successful login saves token, saves user, and changes view to TASKS', async () => {
+    const stateChanger = vi.fn()
+    const user = userEvent.setup()
+
+    const fakeResponse = {
+      username: 'amir',
+      token: 'fake-token-123',
+    }
+
+    loginRoute.create.mockResolvedValue(fakeResponse)
+
+    render(<LoginForm stateChanger={stateChanger} />)
+
+    await user.type(screen.getByTestId('username-input'), 'amir')
+    await user.type(screen.getByTestId('password-input'), 'secret')
+    await user.click(screen.getByTestId('logform-login-button'))
+
+    expect(taskService.setToken).toHaveBeenCalledWith('fake-token-123')
+
+    expect(window.localStorage.getItem('loggedNoteappUser')).toBe(
+      JSON.stringify(fakeResponse)
+    )
+
+    expect(stateChanger).toHaveBeenCalledWith(util.VIEWS.TASKS)
+  })
+
+  test('clears inputs after successful login', async () => {
+    const stateChanger = vi.fn()
+    const user = userEvent.setup()
+
+    loginRoute.create.mockResolvedValue({
+      username: 'amir',
+      token: 'fake-token-123',
     })
 
-    expect(authset).toHaveBeenCalled()
+    render(<LoginForm stateChanger={stateChanger} />)
 
+    const usernameInput = screen.getByTestId('username-input')
+    const passwordInput = screen.getByTestId('password-input')
+
+    await user.type(usernameInput, 'amir')
+    await user.type(passwordInput, 'secret')
+    await user.click(screen.getByTestId('logform-login-button'))
+
+    expect(usernameInput).toHaveValue('')
+    expect(passwordInput).toHaveValue('')
+  })
+
+  test('failed login clears inputs and does not change view', async () => {
+    const stateChanger = vi.fn()
+    const user = userEvent.setup()
+
+    loginRoute.create.mockRejectedValue(new Error('wrong credentials'))
+
+    render(<LoginForm stateChanger={stateChanger} />)
+
+    const usernameInput = screen.getByTestId('username-input')
+    const passwordInput = screen.getByTestId('password-input')
+
+    await user.type(usernameInput, 'amir')
+    await user.type(passwordInput, 'wrongpassword')
+    await user.click(screen.getByTestId('logform-login-button'))
+
+    expect(usernameInput).toHaveValue('')
+    expect(passwordInput).toHaveValue('')
+    expect(taskService.setToken).not.toHaveBeenCalled()
+    expect(stateChanger).not.toHaveBeenCalledWith(util.VIEWS.TASKS)
+  })
 })
-
-
-
-

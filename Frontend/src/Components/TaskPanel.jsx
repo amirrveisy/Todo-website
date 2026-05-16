@@ -3,7 +3,7 @@ import Display from './Display'
 import util from "../util"
 
 const TaskPanel = ({ stateChanger }) => {
-  const { tasks, input, changeInput, addTask, remTask } = useTasks()
+  const { tasks, input, changeInput, addTask, remTask, dateInput, changeDateInput } = useTasks()
 
   const logOut = () => {
     window.localStorage.removeItem('loggedNoteappUser')
@@ -34,17 +34,31 @@ const TaskPanel = ({ stateChanger }) => {
 
             <form onSubmit={addTask} className="mb-4">
               <div className="input-group input-group-lg">
+
                 <input
+                  data-testid="input"
                   className="form-control"
                   value={input}
                   onChange={changeInput}
                   placeholder="Add a new task..."
                 />
 
-                <button className="btn btn-danger px-4" type="submit">
-                  Add
-                </button>
               </div>
+
+              <div className="input-group input-group-lg">
+                <input
+                  className="form-control"
+                  data-testid="date input"
+                  value={dateInput}
+                  onChange={changeDateInput}
+                  type="date"
+                />
+              </div>
+
+              <button className="btn btn-danger px-4" data-testid="add button"  type="submit">
+                Add
+              </button>
+
             </form>
 
             <div className="bg-white border rounded-4 p-3">

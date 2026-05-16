@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import taskRouter from '../../services/Task'
-
+import taskRouter from '../services/Task'
+import util from '../util'
 
 const useTasks = () => {
 
   const [tasks, setTask] = useState([])
   const [input, setInput] = useState("")
+  console.log(util.getTodayDate())
+  const [dateInput, setDateInput] = useState(util.getTodayDate())
 
   useEffect(() => {
 
@@ -13,36 +15,53 @@ const useTasks = () => {
 
       const retunredObject = await taskRouter.getAll()
 
-      console.log(retunredObject)
       setTask(retunredObject)
 
     }
 
     fetchdata()
-    console.log(" This is after the assertion")
-    console.log(tasks)
+
 
   }, [])
 
   const changeInput = (event) => setInput(event.target.value)
 
+  const changeDateInput = (event) => {
+    setDateInput(event.target.value)
+  }
+
+
   const addTask = async (event) => {
     event.preventDefault()
     // Creating the new task
 
-    let newTask = { "task": input }
 
-    await  taskRouter.create(newTask)
+    // if( dateInput===""){
+    //   setDateInput(getTodayDate)
+    //   console.log(dateInput)
+    // }
+
+    console.log(dateInput)
+    let newTask = {
+
+      "task": input,
+      "date": dateInput
+
+    }
+
+    await taskRouter.create(newTask)
 
     // changing the state 
+
     let newTasks = [...tasks, newTask]
     setTask(newTasks)
-    console.log(newTasks)
     setInput("")
+    setDateInput(util.getTodayDate())
 
   }
 
   const remTask = (id) => {
+
     //front end side 
     setTask(prev => prev.filter(p => p.id !== id))
     // db side
@@ -50,7 +69,7 @@ const useTasks = () => {
 
   }
 
-  return { tasks, input, changeInput, addTask, remTask }
+  return { tasks, input, changeInput, addTask, remTask, dateInput, changeDateInput }
 
 }
 export default useTasks

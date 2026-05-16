@@ -1,5 +1,5 @@
 import { useState } from "react"
-import route from '../../services/SignUp'
+import route from '../services/SignUp'
 import util from '../util'
 
 const SUForm = ({ stateChanger }) => {

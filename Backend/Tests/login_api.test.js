@@ -11,6 +11,7 @@ const api = supertest(app)
 const config = require('../util/configurations')
 
 before(async () => {
+    
     await mongoose.connect(config.URL, { family: 4 })
 })
 

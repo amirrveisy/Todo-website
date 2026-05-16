@@ -6,7 +6,6 @@ const Task = ({ task, date, fun }) => {
 
   const isUrgent = util.isUrgent(today, taskDate)
 
-  // 🔵 NOT URGENT
   if (!isUrgent) {
     return (
       <li className="list-group-item rounded-3 mb-2 shadow-sm">
@@ -35,7 +34,7 @@ const Task = ({ task, date, fun }) => {
     )
   }
 
-  // 🔴 URGENT
+
   return (
     <li className="list-group-item rounded-3 mb-2 shadow-sm border-start border-4 border-warning bg-warning-subtle">
       <div className="row align-items-center">

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const URL="http://localhost:3001/api/signup"
+const URL="/api/signup"
 
 
 const create = async (newUser) => {

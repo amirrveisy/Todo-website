@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const URL = "http://localhost:3001/api/tasks"
+const URL = "/api/tasks"
 
 let token = null
 

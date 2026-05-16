@@ -11,6 +11,7 @@ const signupRouter=require('./Controller/SignUp')
 
 const app= express() // we now created an express object
 app.use(cors())
+
 logger.info("Connecting to ", config.URL)
 
 

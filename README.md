@@ -15,14 +15,15 @@ A full stack todo list application with authentication. Users can sign up or log
 
 ---
 ## Live Demo
-
-The application is deployed and accessible at:
+## Live Demo
 
 https://todo-website-1-gqno.onrender.com
-you can use :
-username= test123
-password= test123
-or you can simply signup
+
+You can use:
+- username: test123
+- password: test123
+
+Or you can simply sign up.
 
 ## Tech Stack
 

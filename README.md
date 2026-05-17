@@ -19,6 +19,10 @@ A full stack todo list application with authentication. Users can sign up or log
 The application is deployed and accessible at:
 
 https://todo-website-1-gqno.onrender.com
+you can use :
+username= test123
+password= test123
+or you can simply signup
 
 ## Tech Stack
 

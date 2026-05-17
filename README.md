@@ -14,6 +14,11 @@ A full stack todo list application with authentication. Users can sign up or log
 - Full test coverage for frontend and backend
 
 ---
+## Live Demo
+
+The application is deployed and accessible at:
+
+https://todo-website-1-gqno.onrender.com
 
 ## Tech Stack
 

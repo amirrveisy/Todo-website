@@ -1,3 +1,5 @@
+import photo from '../assets/1.png'
+
 const HeroSection = () => {
   return (
     <section className="container-fluid py-5">
@@ -19,7 +21,7 @@ const HeroSection = () => {
         <div className="col-lg-7 mt-5 mt-lg-0">
           <div className="hero-image-wrapper">
             <img
-              src="../../1.png"
+              src= {photo}
               alt="Todo app preview"
               className="img-fluid rounded-4 border"
             />

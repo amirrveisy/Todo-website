@@ -15,12 +15,9 @@ describe('HeroSection', () => {
     ).toBeInTheDocument()
   })
 
-  test('renders image with correct alt text', () => {
+  test('renders decorative hero card', () => {
     render(<HeroSection />)
 
-    const img = screen.getByAltText('Todo app preview')
-
-    expect(img).toBeInTheDocument()
-    expect(img).toHaveAttribute('src', '../../1.png')
+    expect(screen.getByText('Alien task intelligence online')).toBeInTheDocument()
   })
 })

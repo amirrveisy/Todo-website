@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 import route from '../services/SignUp'
 import util from '../util'
 
@@ -11,7 +11,7 @@ const SUForm = ({ stateChanger }) => {
 
     const newUserObj = {
       username: newUser,
-      password: newPassword
+      password: newPassword,
     }
 
     try {
@@ -26,65 +26,57 @@ const SUForm = ({ stateChanger }) => {
   }
 
   return (
-    <section className="vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div
-        className="card shadow-lg border-0"
-        style={{
-          width: '420px',
-          borderRadius: '24px',
-        }}
-      >
-        <div className="card-body p-5">
-          <h2 className="text-center fw-bold mb-2">Create Account</h2>
-          <p className="text-center text-muted mb-4">
-            Sign up to start managing your tasks
-          </p>
-
-          <form data-testid="signup-form" onSubmit={sendUserObject}>
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Username</label>
-              <input
-                className="form-control form-control-lg"
-                data-testid="username-input"
-                value={newUser}
-                onChange={(event) => setNewUser(event.target.value)}
-                placeholder="Choose a username"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="form-label fw-semibold">Password</label>
-              <input
-                className="form-control form-control-lg"
-                type="password"
-                data-testid="password-input"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-                placeholder="Choose a password"
-              />
-            </div>
-
-            <div className="d-flex gap-3">
-              <button
-                className="btn btn-primary btn-lg w-100"
-                style={{ backgroundColor: '#fc6A03', color: 'white' }}
-                data-testid="signup-button"
-                type="submit"
-              >
-                Sign Up
-              </button>
-
-              <button
-                className="btn btn-outline-secondary btn-lg w-100"
-                data-testid="signup-cancel-button"
-                type="button"
-                onClick={() => stateChanger(util.VIEWS.HOME)}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
+    <section className="flex min-h-screen items-center justify-center px-6 py-12">
+      <div className="w-full max-w-md rounded-[2rem] border border-cyan-400/20 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-500/10 backdrop-blur-xl">
+        <div className="mb-8 text-center">
+          <p className="mb-2 text-sm uppercase tracking-[0.35em] text-cyan-300">New pilot</p>
+          <h2 className="text-3xl font-semibold text-white">Create your account</h2>
+          <p className="mt-2 text-sm text-slate-400">Join the mission and organize your tasks in orbit.</p>
         </div>
+
+        <form data-testid="signup-form" onSubmit={sendUserObject} className="space-y-4">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-200">Username</label>
+            <input
+              className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 placeholder:text-slate-500"
+              data-testid="username-input"
+              value={newUser}
+              onChange={(event) => setNewUser(event.target.value)}
+              placeholder="Choose a username"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-200">Password</label>
+            <input
+              className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 placeholder:text-slate-500"
+              type="password"
+              data-testid="password-input"
+              value={newPassword}
+              onChange={(event) => setNewPassword(event.target.value)}
+              placeholder="Choose a password"
+            />
+          </div>
+
+          <div className="flex gap-3 pt-2">
+            <button
+              className="w-full rounded-full bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-400"
+              data-testid="signup-button"
+              type="submit"
+            >
+              Sign Up
+            </button>
+
+            <button
+              className="w-full rounded-full border border-slate-700 bg-slate-950/70 px-4 py-3 font-semibold text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-200"
+              data-testid="signup-cancel-button"
+              type="button"
+              onClick={() => stateChanger(util.VIEWS.HOME)}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </section>
   )

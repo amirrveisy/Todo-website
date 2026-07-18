@@ -1,86 +1,36 @@
-import SUForm from './SignUpform'
-import LoginForm from './LoginForm'
-import { useState } from 'react'
 import util from '../util'
 
-
 const NavigationBar = ({ stateChanger }) => {
+  return (
+    <nav className="border-b border-cyan-500/20 bg-slate-950/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+        <a href="#" className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-400/10 text-lg font-semibold text-cyan-300">
+            T
+          </div>
+          <div>
+            <p className="text-lg font-semibold tracking-[0.2em] text-slate-100">TASKLINE</p>
+            <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Alien Control</p>
+          </div>
+        </a>
 
-
-
-    return (
-        <nav
-            className="navbar navbar-expand-lg px-4"
-            style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #eee" }}
-        >
-            <div className="container-fluid">
-
-                {/* Left: Logo */}
-                <a className="navbar-brand d-flex align-items-center" href="#">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Todoist_logo.png"
-                        alt="logo"
-                        style={{ width: "28px", marginRight: "10px" }}
-                    />
-                    <span style={{ color: "#dba23f", fontWeight: "600", fontSize: "20px" }}>
-                        TodoList
-                    </span>
-                </a>
-
-                {/* Right side */}
-                <div className="collapse navbar-collapse justify-content-end">
-                    <ul className="navbar-nav align-items-center gap-3">
-
-
-
-                        {/* Divider */}
-                        <div
-                            style={{
-                                width: "1px",
-                                height: "24px",
-                                backgroundColor: "#ddd",
-                            }}
-                        ></div>
-
-                        <li className="nav-item">
-                            <button
-                                onClick={() => { stateChanger(util.VIEWS.LOGIN) }}
-                                className="btn"
-                                style={{
-                                    backgroundColor: "#fc6A03",
-                                    color: "white",
-                                    borderRadius: "8px",
-                                    padding: "6px 14px",
-                                    fontWeight: "600",
-                                }}
-                            >
-                                login
-                            </button>
-                        </li>
-
-                        <li className="nav-item">
-                            <button
-                                onClick={() => { stateChanger(util.VIEWS.SIGNUP) }}
-                                className="btn"
-                                style={{
-                                    backgroundColor: "#fc6A03",
-                                    color: "white",
-                                    borderRadius: "8px",
-                                    padding: "6px 14px",
-                                    fontWeight: "600",
-                                }}
-                            >
-                                SignUp
-                            </button>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
-
-
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => stateChanger(util.VIEWS.LOGIN)}
+            className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:border-cyan-300 hover:bg-cyan-400/20"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => stateChanger(util.VIEWS.SIGNUP)}
+            className="rounded-full bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-400"
+          >
+            Sign Up
+          </button>
+        </div>
+      </div>
+    </nav>
+  )
 }
 
 export default NavigationBar

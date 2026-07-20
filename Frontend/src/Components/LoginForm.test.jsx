@@ -29,7 +29,7 @@ describe('LoginForm', () => {
 
     render(<LoginForm stateChanger={stateChanger} />)
 
-    expect(screen.getByText('Welcome Back')).toBeInTheDocument()
+    expect(screen.getByText('Welcome back')).toBeInTheDocument()
     expect(screen.getByTestId('username-input')).toBeInTheDocument()
     expect(screen.getByTestId('password-input')).toBeInTheDocument()
     expect(screen.getByTestId('logform-login-button')).toBeInTheDocument()
@@ -122,7 +122,7 @@ describe('LoginForm', () => {
     const stateChanger = vi.fn()
     const user = userEvent.setup()
 
-    loginRoute.create.mockRejectedValue(new Error('wrong credentials'))
+    loginRoute.create.mockRejectedValue({ response: { status: 401 } })
 
     render(<LoginForm stateChanger={stateChanger} />)
 
@@ -137,5 +137,8 @@ describe('LoginForm', () => {
     expect(passwordInput).toHaveValue('')
     expect(taskService.setToken).not.toHaveBeenCalled()
     expect(stateChanger).not.toHaveBeenCalledWith(util.VIEWS.TASKS)
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Incorrect username or password. Please try again.'
+    )
   })
 })

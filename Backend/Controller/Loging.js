@@ -7,12 +7,13 @@ const { eventNames } = require('../app')
 
 
 userRouter.post('/', async (req, res) => {
+    
 
     const { username, password } = req.body
     
     const user = await User.findOne({ username })
    
-    const passwordCorrect = user === null ? false :  bcrypt.compare(password, user.passwordHash)
+    const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash)
     
 
     if (!(user && passwordCorrect)) {
@@ -22,8 +23,10 @@ userRouter.post('/', async (req, res) => {
     }
 
     const newobject ={
+
         username: user.username,
         id: user._id
+
     }
     const token = jwt.sign(newobject,process.env.SECRET_STR, {expiresIn :60*60})
 

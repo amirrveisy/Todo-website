@@ -7,6 +7,7 @@ const LoginForm = ({ stateChanger }) => {
   
   const [newUser, setNewUser] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
 
   const handleLogin = () => {
     stateChanger(util.VIEWS.TASKS)
@@ -34,6 +35,11 @@ const LoginForm = ({ stateChanger }) => {
       setNewPassword('')
     } catch (error) {
       console.log(error)
+      setLoginError(
+        error.response?.status === 401
+          ? 'Incorrect username or password. Please try again.'
+          : 'Unable to log in right now. Please try again.'
+      )
       setNewUser('')
       setNewPassword('')
     }
@@ -49,13 +55,25 @@ const LoginForm = ({ stateChanger }) => {
         </div>
 
         <form data-testid="login-form" onSubmit={sendUserObject} className="space-y-4">
+          {loginError && (
+            <p
+              role="alert"
+              className="rounded-2xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+            >
+              {loginError}
+            </p>
+          )}
+
           <div>
             <label className="mb-2 block text-sm font-medium text-slate-200">Username</label>
             <input
               className="w-full rounded-2xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 placeholder:text-slate-500"
               data-testid="username-input"
               value={newUser}
-              onChange={(event) => setNewUser(event.target.value)}
+              onChange={(event) => {
+                setNewUser(event.target.value)
+                setLoginError('')
+              }}
               placeholder="Enter your username"
             />
           </div>
@@ -67,7 +85,10 @@ const LoginForm = ({ stateChanger }) => {
               type="password"
               data-testid="password-input"
               value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
+              onChange={(event) => {
+                setNewPassword(event.target.value)
+                setLoginError('')
+              }}
               placeholder="Enter your password"
             />
           </div>
